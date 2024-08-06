@@ -213,7 +213,7 @@ print(confusionmatrix_rf)
 
 Finally, the last model that will be trained is a Gradient Boosting Model (GBM). It also uses Decision Trees as a base. But contrary to a Random Forests where Decision Trees are aligned in a parallel manner, a GBM uses several Decision Trees in a sequence. 
 
-In this case, a fourfold cross-validation is performed, with a grid-search on the number of trees `n.trees`. Similarly to the Random Forest, the best fitted model is saved in the `fit_gbm.rds` file. After doing predictions on the testing dataset, an accuracy of 98.19% is obtained.
+In this case, a fourfold cross-validation is performed, with a grid-search on the number of trees `n.trees`. Similarly to the Random Forest, the best fitted model is saved in the `fit_gbm.rds` file. After doing predictions on the testing data, an accuracy of 98.19% is obtained.
 
 ```{r gbm_train, echo=TRUE, eval=FALSE}
 # GBM
