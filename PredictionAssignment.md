@@ -58,12 +58,14 @@ cat("The dimension of the raw train table is:", dim(raw_train_table), "\nThe dim
 ```r
 missing_proportions <- sapply(raw_train_table, function(x) mean(is.na(x)))
 
+png("missing_values_plot.png", width = 600, height = 500, res = 100)
 barplot(missing_proportions, main="Proportion of Missing Values by Variable",
         xlab="Proportion of Missing Values", ylab="Variables",
         las=1, col="lightblue", cex.names=0.2, horiz=TRUE)
+invisible(dev.off())
 ```
 
-![](PredictionAssignment_files/figure-html/EDA1-1.png)<!-- -->
+![](missing_values_plot.png)
 
 With the barplot, it is possible to see that the variables which do have missing values, also have a very high proportion of missing values (almost 100%). Those variables have therefore almost no valuable information for modelling, and will be discarded. A threshold of 95% missing values is chosen to decide which columns to keep. 
 
@@ -170,15 +172,18 @@ The data is now ready for analysis as well as for modelling. A quick correlation
 ```r
 # EDA (Correlation Matrix)
 corr_matrix <- cor(training_dataset[ , -54]) # Remove the target variable which is a string
+
+png("corr_plot.png", width = 500, height = 500, res = 100)
 corrplot(corr_matrix, order = "FPC", method = "circle", type = "full",
          tl.cex = 0.5, tl.col = rgb(0, 0, 0))
+invisible(dev.off())
 ```
 
-![](PredictionAssignment_files/figure-html/correlation-1.png)<!-- -->
+![](corr_plot.png)
 
 ## Modelling
 
-The first model that will be trained in this part is a decision tree model. A cross-validation with 5 folds is performed with a grid-search on on the `cp` parameter. The best fitted model is then saved in `model_decisiontree`, and prediction are evaluated on the `testing_dataset`. The accuracy achieved with this model is equal to 95.56%.
+The first model that will be trained in this part is a decision tree model. A cross-validation with 5 folds is performed with a grid-search on the `cp` parameter. The best fitted model is then saved in `model_decisiontree`, and predictions are evaluated on the `testing_dataset`. The accuracy achieved with this model is equal to 95.56%.
 
 
 ```r
@@ -238,7 +243,7 @@ print(confusionmatrix_decisiontree2)
 ## Balanced Accuracy      0.9820   0.9653   0.9714   0.9606   0.9755
 ```
 
-The next type of model that will be trained is a Random Forest. Random Forests are composed of several Decision Trees aligned in parallel. Here, the number of cross-validation is only 3. I chose a lower cross-validation number because of the increased time needed to train a Random Forest compared to a Decision Tree alone. as for the grid-search, it is performed over the `mtry` parameter. The best fitted motel is saved in an rds file to avoid to having to train the model again. Predictions are again performed on the test set, for which we get an accuracy of 99.85%.
+The next type of model that will be trained is a Random Forest. Random Forests are composed of several Decision Trees aligned in parallel. Here, the number of cross-validation is only 3. I chose a lower cross-validation number because of the increased time needed to train a Random Forest compared to a Decision Tree alone. As for the grid-search, it is performed over the `mtry` parameter. The best fitted model is saved in a `rds` file to avoid having to train the model again. Predictions are again performed on the test set, for which we get an accuracy of 99.85%.
 
 
 ```r

@@ -56,18 +56,22 @@ Before modelling, the raw data needs to be processed to be usable. We start by c
 Looking at the first values of the training table (with the command `str()`, here put under comment), we notice that we have a lot of numerical variables, which are the measurements of the different accelerometers. The `classe` column is the target variable `y` which we want to predict (i.e. the manner in which the exercice was performed). We also have some identification variables (`X`, `user_name`, timestamp variables) which are not needed for the classification task. 
 
 Some columns seem to have a high number of `NAs` or of empty strings. One way to visualize this, is to plot the proportion of missing values with a barplot, that can be seen below.
-```{r EDA1, echo=TRUE}
+```{r EDA1, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Exploratory Data Analysis
 cat("The dimension of the raw train table is:", dim(raw_train_table), "\nThe dimension of the test data is:", dim(raw_test_table), "\nThe total number of missing values in the raw train table is:", sum(is.na(raw_train_table)))
 
 missing_proportions <- sapply(raw_train_table, function(x) mean(is.na(x)))
 
+png("missing_values_plot.png", width = 600, height = 500, res = 100)
 barplot(missing_proportions, main="Proportion of Missing Values by Variable",
         xlab="Proportion of Missing Values", ylab="Variables",
         las=1, col="lightblue", cex.names=0.2, horiz=TRUE)
+invisible(dev.off())
 
 ```
+
+![](missing_values_plot.png)
 
 With the barplot, it is possible to see that the variables which do have missing values, also have a very high proportion of missing values (almost 100%). Those variables have therefore almost no valuable information for modelling, and will be discarded. A threshold of 95% missing values is chosen to decide which columns to keep. 
 
@@ -149,9 +153,14 @@ The data is now ready for analysis as well as for modelling. A quick correlation
 
 # EDA (Correlation Matrix)
 corr_matrix <- cor(training_dataset[ , -54]) # Remove the target variable which is a string
+
+png("corr_plot.png", width = 500, height = 500, res = 100)
 corrplot(corr_matrix, order = "FPC", method = "circle", type = "full",
          tl.cex = 0.5, tl.col = rgb(0, 0, 0))
+invisible(dev.off())
 ```
+
+![](corr_plot.png)
 
 ## Modelling
 
