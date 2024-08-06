@@ -55,7 +55,7 @@ Before modelling, the raw data needs to be processed to be usable. We start by c
 
 Looking at the first values of the training table (with the command `str()`, here put under comment), we notice that we have a lot of numerical variables, which are the measurements of the different accelerometers. The `classe` column is the target variable `y` which we want to predict (i.e. the manner in which the exercice was performed). We also have some identification variables (`X`, `user_name`, timestamp variables) which are not needed for the classification task. 
 
-Some columns seem to have a high number of `NAs` or of empty strings. One way to visualize this, is to plot the proportion of missing values with a barplot, that can be seen below.
+Some columns seem to have a high number of `NAs` or of empty strings. One way to visualize this is to plot the proportion of missing values with a barplot. Thus can be seen below, where missing values are represented by the dark bars.
 ```{r EDA1, echo=TRUE, message=FALSE, warning=FALSE}
 
 # Exploratory Data Analysis
@@ -73,7 +73,7 @@ invisible(dev.off())
 
 ![](missing_values_plot.png)
 
-With the barplot, it is possible to see that the variables which do have missing values, also have a very high proportion of missing values (almost 100%). Those variables have therefore almost no valuable information for modelling, and will be discarded. A threshold of 95% missing values is chosen to decide which columns to keep. 
+With the barplot, it is possible to see that the variables which do have missing values also have a very high proportion of missing values (almost 100%). Those variables have therefore almost no valuable information for modelling, and will be discarded. A threshold of 95% missing values is chosen to decide which columns to keep. 
 
 ```{r EDA2, echo=TRUE}
 # Checking for NAs
